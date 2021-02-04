@@ -6,6 +6,7 @@ const express = require('express');
 const axios = require('axios');
 const ejsLayouts = require('express-ejs-layouts');
 const methodOverride = require('method-override');
+const db = require('./models')
 
 // 3 - App set up
 const app = express();
@@ -20,6 +21,17 @@ app.use(methodOverride('_method'));
 app.get('/', (req, res) => {
     res.send('Welcome to my App'); // Yo, Rome: what is this doing?
 });
+
+app.get('/coders', (req, res)=> {
+    // we need to get all users from database
+    db.user.findAll()
+    .then((users)=> {
+        // we need to render the index.ejs page
+        // we need to pass the users data to it
+        res.render('index', { users: users })
+    })
+
+})
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
