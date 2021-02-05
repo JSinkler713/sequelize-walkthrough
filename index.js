@@ -33,6 +33,20 @@ app.get('/coders', (req, res)=> {
 
 })
 
+app.get('/coders/new', (req, res)=> {
+  res.render('new')
+})
+
+app.post('/coders', (req, res)=> {
+  // the whole body object, each property in the field
+  const newCoder = req.body
+  db.user.create(newCoder)
+    .then((createdUser)=> {
+      // redirect as get request to /coders
+      res.redirect('/coders')
+    })
+})
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server running on PORT: ${PORT}`);
